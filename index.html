@@ -1596,6 +1596,7 @@
 
       // ====== Resumo de Anomalias
 // === Resumo de Anomalias (com deduplicação) ===
+// === Resumo de Anomalias (sigla por item + deduplicação) ===
 function buildAnomaliasResumoTexto(){
   if(!appState.activeInspecaoId) return '';
   const ins = appState.db[appState.activeInspecaoId];
@@ -1636,11 +1637,12 @@ function buildAnomaliasResumoTexto(){
 
   const linhas = [];
   Object.keys(grupos).sort().forEach(elKey=>{
-    const [nome, sig] = elKey.split('|||'); const sigTxt = sig?` - (${sig})`:'';
+    const [nome, sig] = elKey.split('|||'); 
+    const sigTxt = sig ? ` - (${sig})` : '';
     linhas.push(`${nome}${sigTxt}:`);
 
     Object.keys(grupos[elKey]).sort().forEach(an=>{
-      // NOVO: deduplicação por (número + local)
+      // Deduplicar por (número + local)
       const uniqMap = new Map();
       grupos[elKey][an].forEach(it=>{
         const key = `${it.numPad}||${it.loc}`;
@@ -1648,16 +1650,20 @@ function buildAnomaliasResumoTexto(){
       });
 
       const itens = Array.from(uniqMap.values()).sort((a,b)=>a.numVal - b.numVal);
-      const partes = itens.map(it => `${it.numPad}${it.loc}`);
+
+      // Prefixo por item: usar sigla se existir; senão, o nome
+      const prefix = sig || nome;
+      const partes = itens.map(it => `${prefix} ${it.numPad}${it.loc}`);
       const numsComLoc = joinComE(partes);
 
-      linhas.push(`\u2022 ${nome} ${numsComLoc} com ${an}.`);
+      linhas.push(`\u2022 ${numsComLoc} com ${an}.`);
     });
     linhas.push('');
   });
 
   return linhas.join('\n').trim();
 }
+
 
       function gerarResumoAnomalias(){ anomaliasResumo.value = buildAnomaliasResumoTexto(); }
       gerarResumoAnomaliasBtn.addEventListener('click', gerarResumoAnomalias);
