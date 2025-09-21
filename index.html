@@ -260,6 +260,8 @@
               </select>
               <p class="hint">Este campo aparece para elementos “Pista”, “Pavimento flexível” e “Pavimento rígido”.</p>
             </div>
+            
+            <button id="submitBtnTop" type="submit" class="btn btn-primary" style="margin-top: 10px; margin-bottom: 10px;">💾 Salvar e Continuar</button>
 
             <div class="section" style="border-left-color:#8c8cff">
               <div class="section-header"><h3>🧩 Anomalias</h3></div>
@@ -689,7 +691,6 @@
           toastEl.classList.remove('show');
         }, duration);
       }
-      // Expor para uso eventual
       window.showToast = showToast;
 
       // ======== CONFIRMAÇÃO (MODAL) ========
@@ -722,7 +723,6 @@
           confirmCancelBtn.addEventListener('click', onCancel, { once: true });
         });
       }
-      // Torna acessível globalmente para o SW update handler
       window.showConfirm = showConfirm;
 
       // ======== BANCO DE DADOS (DEXIE) ========
@@ -1265,9 +1265,17 @@
         }
 
         await db.inspecoes.put(ins);
-
+        
+        // MODIFICAÇÃO 1: Limpar campos de anomalias ao salvar
         ['numero_elemento','face','vao','vista','comprimento','largura','abertura','observacoes','sentido_pista'].forEach(k=>{ if(registroFields[k]) registroFields[k].value=''; });
-        registroFields.elemento.value=''; resetFaceOptionsToDefault(); faceHint.classList.add('hidden'); sentidoPistaGroup.classList.add('hidden');
+        registroFields.elemento.value=''; 
+        registroFields.anomalia.value = '';
+        anomaliaSearch.value = '';
+        elementoSearch.value = '';
+        filterAnomalias('todos');
+        // --- Fim da Modificação 1
+
+        resetFaceOptionsToDefault(); faceHint.classList.add('hidden'); sentidoPistaGroup.classList.add('hidden');
         updatePhotoInfo(); loadRegistros(ins.registros); gerarResumoAnomalias();
       });
 
@@ -1593,77 +1601,101 @@
       copiarTextoViasBtn.addEventListener('click', async ()=>{
         try{ await navigator.clipboard.writeText(viasTexto.value||''); showToast('Texto copiado!', 'info'); }catch{ showToast('Não foi possível copiar.', 'error'); }
       });
+      
+      // MODIFICAÇÃO: Substitua a função buildAnomaliasResumoTexto inteira por esta nova versão
+function buildAnomaliasResumoTexto() {
+    if (!appState.activeInspecaoId) return '';
+    const ins = appState.db[appState.activeInspecaoId];
+    const regs = (ins && ins.registros) ? ins.registros : [];
+    if (!regs.length) return '';
 
-      // ====== Resumo de Anomalias
-// === Resumo de Anomalias (com deduplicação) ===
-// === Resumo de Anomalias (sigla por item + deduplicação) ===
-function buildAnomaliasResumoTexto(){
-  if(!appState.activeInspecaoId) return '';
-  const ins = appState.db[appState.activeInspecaoId];
-  const regs = (ins && ins.registros) ? ins.registros : [];
-  if(!regs.length) return '';
+    // 1. Agrupa todos os registros por Elemento -> Anomalia
+    const grupos = {};
+    regs.forEach(r => {
+        const nome = resolveElementoNome(r);
+        const sig = resolveElementoSigla(r) || '';
+        if (!nome) return;
 
-  const grupos = {};
-  regs.forEach(r=>{
-    const nome = resolveElementoNome(r); const sig = resolveElementoSigla(r)||''; if(!nome) return;
+        let an = (r.anomalia || '').trim();
+        if (!an) return;
+        an = an.replace(/^\d+(?:\.\d+)*(?:-\d+(?:\.\d+)*)?\s*-\s*/i, '').trim();
+        an = an.charAt(0).toLowerCase() + an.slice(1);
 
-    let an = (r.anomalia||'').trim(); if(!an) return;
-    // remove códigos "1.5 -", "1.5-1.17 -", etc.
-    an = an.replace(/^\d+(?:\.\d+)*(?:-\d+(?:\.\d+)*)?\s*-\s*/i,'').trim();
-    an = an.charAt(0).toLowerCase() + an.slice(1);
+        const elKey = `${nome}|||${sig}`;
+        if (!grupos[elKey]) grupos[elKey] = {};
+        if (!grupos[elKey][an]) grupos[elKey][an] = [];
 
-    // local por item
-    const locParts = [];
-    if(r.vao) locParts.push(r.vao);
-    if(r.face){
-      const f = r.face.trim();
-      if(/^(Norte|Sul|Leste|Oeste|Inferior|Superior)$/i.test(f)){
-        const cap = f.charAt(0).toUpperCase()+f.slice(1).toLowerCase();
-        locParts.push(`Face ${cap}`);
-      }else{
-        locParts.push(f);
-      }
-    }
-    if(r.sentido_pista) locParts.push(`Sentido ${r.sentido_pista}`);
-    const loc = locParts.length ? ` (${locParts.join(', ')})` : '';
-
-    const elKey = `${nome}|||${sig}`;
-    if(!grupos[elKey]) grupos[elKey] = {};
-    if(!grupos[elKey][an]) grupos[elKey][an] = [];
-
-    const numPad = pad2(r.numero_elemento || '');
-    grupos[elKey][an].push({ numVal: parseInt(numPad,10) || 0, numPad, loc });
-  });
-
-  const linhas = [];
-  Object.keys(grupos).sort().forEach(elKey=>{
-    const [nome, sig] = elKey.split('|||'); 
-    const sigTxt = sig ? ` - (${sig})` : '';
-    linhas.push(`${nome}${sigTxt}:`);
-
-    Object.keys(grupos[elKey]).sort().forEach(an=>{
-      // Deduplicar por (número + local)
-      const uniqMap = new Map();
-      grupos[elKey][an].forEach(it=>{
-        const key = `${it.numPad}||${it.loc}`;
-        if(!uniqMap.has(key)) uniqMap.set(key, it);
-      });
-
-      const itens = Array.from(uniqMap.values()).sort((a,b)=>a.numVal - b.numVal);
-
-      // Prefixo por item: usar sigla se existir; senão, o nome
-      const prefix = sig || nome;
-      const partes = itens.map(it => `${prefix} ${it.numPad}${it.loc}`);
-      const numsComLoc = joinComE(partes);
-
-      linhas.push(`\u2022 ${numsComLoc} com ${an}.`);
+        grupos[elKey][an].push({
+            numPad: pad2(r.numero_elemento || ''),
+            vao: r.vao || null,
+            face: r.face || null,
+            sentido: r.sentido_pista || null,
+            abertura: r.abertura || ''
+        });
     });
-    linhas.push('');
-  });
 
-  return linhas.join('\n').trim();
+    const linhas = [];
+    Object.keys(grupos).sort().forEach(elKey => {
+        const [nome, sig] = elKey.split('|||');
+        const sigTxt = sig ? ` - (${sig})` : '';
+        linhas.push(`${nome}${sigTxt}:`);
+
+        Object.keys(grupos[elKey]).sort().forEach(an => {
+            const anomaliaItems = grupos[elKey][an];
+            
+            // 2. Agrupa os itens da mesma anomalia por Abertura
+            const aberturasMap = {};
+            anomaliaItems.forEach(item => {
+                const aberturaKey = (requiresAbertura(an) && item.abertura) ? item.abertura : 'N/A';
+                if (!aberturasMap[aberturaKey]) aberturasMap[aberturaKey] = [];
+                aberturasMap[aberturaKey].push(item);
+            });
+
+            Object.keys(aberturasMap).forEach(abertura => {
+                const itensComMesmaAbertura = aberturasMap[abertura];
+                
+                // 3. Agrupa as localizações por número do elemento
+                const groupByNumber = {};
+                itensComMesmaAbertura.forEach(item => {
+                    if (!groupByNumber[item.numPad]) {
+                        groupByNumber[item.numPad] = { vaos: new Set(), faces: new Set(), sentidos: new Set() };
+                    }
+                    if (item.vao) groupByNumber[item.numPad].vaos.add(item.vao);
+                    if (item.face) groupByNumber[item.numPad].faces.add(item.face);
+                    if (item.sentido) groupByNumber[item.numPad].sentidos.add(item.sentido);
+                });
+
+                const prefix = sig || nome;
+                const partes = [];
+                const sortedNumbers = Object.keys(groupByNumber).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+
+                sortedNumbers.forEach(numPad => {
+                    const locs = groupByNumber[numPad];
+                    const locParts = [];
+                    // Junta os vãos, faces e sentidos de forma inteligente
+                    if (locs.vaos.size > 0) locParts.push(joinComE(Array.from(locs.vaos).sort()));
+                    if (locs.faces.size > 0) locParts.push(`Face ${joinComE(Array.from(locs.faces).sort())}`);
+                    if (locs.sentidos.size > 0) locParts.push(`Sentido ${joinComE(Array.from(locs.sentidos).sort())}`);
+                    
+                    const locString = locParts.length > 0 ? ` (${locParts.join(', ')})` : '';
+                    partes.push(`${prefix} ${numPad}${locString}`);
+                });
+
+                const numsComLoc = joinComE(partes);
+                let textoFinalAnomalia = ` com ${an}`;
+                if (abertura !== 'N/A') {
+                    const valorAbertura = abertura.replace('W', '').replace(',', '.');
+                    textoFinalAnomalia += ` com abertura de até ${valorAbertura} mm`;
+                }
+                textoFinalAnomalia += '.';
+
+                linhas.push(`\u2022 ${numsComLoc}${textoFinalAnomalia}`);
+            });
+        });
+        linhas.push('');
+    });
+    return linhas.join('\n').trim();
 }
-
 
       function gerarResumoAnomalias(){ anomaliasResumo.value = buildAnomaliasResumoTexto(); }
       gerarResumoAnomaliasBtn.addEventListener('click', gerarResumoAnomalias);
@@ -1691,7 +1723,6 @@ function buildAnomaliasResumoTexto(){
         if(firstId) inspecaoAtivaSelect.value=firstId;
         setActiveInspecao(firstId);
         toggleContadorInputs(); toggleViasDependentes(); updateAberturaRequired();
-        // offline indicator
         checkOfflineStatus();
       };
       initApp();
