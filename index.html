@@ -276,93 +276,111 @@
                 <label for="anomalia">Anomalia (Opcional):</label>
                 <input id="anomaliaSearch" class="search-input" placeholder="Digite para filtrar..." aria-label="Filtrar anomalias" />
                 <select id="anomalia" name="anomalia">
-                  <option value="">Selecione...</option>
-                  <optgroup label="1. CONCRETO">
-                    <option data-category="concreto" value="1.1">1.1 - Manchas de umidade</option>
-                    <option data-category="concreto" value="1.2">1.2 - Manchas de umidade ativa</option>
-                    <option data-category="concreto" value="1.3">1.3 - Eflorescência</option>
-                    <option data-category="concreto" value="1.4">1.4 - Estalactites</option>
-                    <option data-category="concreto" value="1.5">1.5 - Concreto disgregado</option>
-                    <option data-category="concreto" value="1.5-1.17">1.5-1.17 - Concreto disgregado com armadura exposta</option>
-                    <option data-category="concreto" value="1.6">1.6 - Concreto segregado</option>
-                    <option data-category="concreto" value="1.6-1.17">1.6-1.17 - Concreto segregado com armadura exposta</option>
-                    <option data-category="concreto" value="1.7">1.7 - Concreto desagregado</option>
-                    <option data-category="concreto" value="1.7-1.17">1.7-1.17 - Concreto desagregado com armadura exposta</option>
-                    <option data-category="concreto" value="1.8">1.8 - Redução de cobrimento</option>
-                    <option data-category="concreto" value="1.9">1.9 - Fissuras horizontais</option>
-                    <option data-category="concreto" value="1.10">1.10 - Fissuras verticais</option>
-                    <option data-category="concreto" value="1.11">1.11 - Fissuras diagonais</option>
-                    <option data-category="concreto" value="1.12">1.12 - Fissuras mapeadas</option>
-                    <option data-category="concreto" value="1.13">1.13 - Trincas (&gt;0,5 mm)</option>
-                    <option data-category="concreto" value="1.14">1.14 - Reparos locais inadequados</option>
-                    <option data-category="concreto" value="1.15">1.15 - Fora de prumo</option>
-                    <option data-category="concreto" value="1.16">1.16 - Desplacamento</option>
-                    <option data-category="concreto" value="1.16-1.17">1.16-1.17 - Desplacamento com Armadura Exposta</option>
-                    <option data-category="concreto" value="1.17">1.17 - Armadura exposta</option>
-                    <option data-category="concreto" value="1.18">1.18 - Manchas enegrecidas</option>
-                    <option data-category="concreto" value="1.19">1.19 - Incidência de vegetação</option>
-                    <option data-category="concreto" value="1.20">1.20 - Deslocamento linear ou angular</option>
-                    <option data-category="concreto" value="1.21">1.21 - Resto de forma</option>
-                    <option data-category="concreto" value="1.22">1.22 - Drenos de injeção não arrematados</option>
-                    <option data-category="concreto" value="1.23">1.23 - Falha no acabamento dos nichos de ancoragens das armaduras protendidas</option>
-                  </optgroup>
-                  <optgroup label="2. ESTRUTURAS METÁLICAS">
-                    <option data-category="metalica" value="2.1">2.1 - Falha de acabamento na soldagem</option>
-                    <option data-category="metalica" value="2.2">2.2 - Corrosão</option>
-                    <option data-category="metalica" value="2.3">2.3 - Empeno/Deformação</option>
-                    <option data-category="metalica" value="2.4">2.4 - Falta de parafusos, porcas e arruelas</option>
-                    <option data-category="metalica" value="2.5">2.5 - Falha de pintura</option>
-                    <option data-category="metalica" value="2.6">2.6 - Trinca transpassante</option>
-                    <option data-category="metalica" value="2.7">2.7 - Infiltração no parafuso</option>
-                    <option data-category="metalica" value="2.8">2.8 - Oxidação</option>
-                    <option data-category="metalica" value="2.9">2.9 - Buzinotes curtos, danificados ou ausentes</option>
-                    <option data-category="metalica" value="2.10">2.10 - Calcinação</option>
-                  </optgroup>
-                  <optgroup label="3. PAVIMENTAÇÃO E SISTEMA VIÁRIO">
-                    <option data-category="pavimentacao" value="3.1">3.1 - Fuga de material, existência de erosão e indícios de instabilidade do talude</option>
-                    <option data-category="pavimentacao" value="3.2">3.2 - Desgaste superficial, espessura excessiva, ondulações e cavidades no pavimento</option>
-                    <option data-category="pavimentacao" value="3.3">3.3 - Deficiência e/ou ausência de sinalização horizontal, vertical e aérea</option>
-                    <option data-category="pavimentacao" value="3.4">3.4 - Descontinuidade do greide</option>
-                    <option data-category="pavimentacao" value="3.5">3.5 - Deficiência no sistema de drenagem</option>
-                    <option data-category="pavimentacao" value="3.6">3.6 - Ausência de perfil de vedação na junta de dilatação</option>
-                    <option data-category="pavimentacao" value="3.7">3.7 - Falta de estanqueidade na junta de dilatação</option>
-                    <option data-category="pavimentacao" value="3.8">3.8 - Saliência ou depressão causando desconforto ao usuário ou impacto na obra</option>
-                    <option data-category="pavimentacao" value="3.9">3.9 - Deterioração dos lábios poliméricos</option>
-                    <option data-category="pavimentacao" value="3.10">3.10 - Deterioração dos berços na junta de dilatação</option>
-                    <option data-category="pavimentacao" value="3.11">3.11 - Acúmulo de detritos na junta de dilatação</option>
-                    <option data-category="pavimentacao" value="3.12">3.12 - Perfil elastomérico com descolamento, rasgos ressecamento ou deslocamento</option>
-                    <option data-category="pavimentacao" value="3.13">3.13 - Abertura excessiva da junta de dilatação</option>
-                    <option data-category="pavimentacao" value="3.14">3.14 - Trincas</option>
-                    <option data-category="pavimentacao" value="3.15">3.15 - Fissuras</option>
-                    <option data-category="pavimentacao" value="3.16">3.16 - Panela</option>
-                    <option data-category="pavimentacao" value="3.17">3.17 - Exsudação</option>
-                    <option data-category="pavimentacao" value="3.18">3.18 - Defeitos nos trilhos (ondulações e desgastes)</option>
-                    <option data-category="pavimentacao" value="3.19">3.19 - Falha de adensamento do lastro</option>
-                    <option data-category="pavimentacao" value="3.20">3.20 - Dormentes soltos, ausentes ou danificados</option>
-                    <option data-category="pavimentacao" value="3.21">3.21 - Fixações danificadas</option>
-                    <option data-category="pavimentacao" value="3.22">3.22 - Trilhos desalinhados em região de junta</option>
-                    <option data-category="pavimentacao" value="3.23">3.23 - Espessura excessiva do lastro</option>
-                    <option data-category="pavimentacao" value="3.24">3.24 - Trincas tipo "couro de jacaré"</option>
-                    <option data-category="pavimentacao" value="3.25">3.25 - Dano em pavimento rígido</option>
-                  </optgroup>
-                  <optgroup label="4. APARELHOS DE APOIO">
-                    <option data-category="apoios" value="4.1">4.1 - Ausência de aparelho de apoio</option>
-                    <option data-category="apoios" value="4.2">4.2 - Bloqueio</option>
-                    <option data-category="apoios" value="4.3">4.3 - Posicionamento inadequado</option>
-                    <option data-category="apoios" value="4.4">4.4 - Acúmulo de detritos, ocorrência de agentes agressivos</option>
-                    <option data-category="apoios" value="4.5">4.5 - Ruptura</option>
-                    <option data-category="apoios" value="4.6">4.6 - Fissuras</option>
-                    <option data-category="apoios" value="4.7">4.7 - Trincas</option>
-                    <option data-category="apoios" value="4.8">4.8 - Esmagamento</option>
-                    <option data-category="apoios" value="4.9">4.9 - Deformações laterais excessivas</option>
-                    <option data-category="apoios" value="4.10">4.10 - Deslocamentos</option>
-                    <option data-category="apoios" value="4.11">4.11 - Distorção excessiva</option>
-                    <option data-category="apoios" value="4.12">4.12 - Peças de aço oxidadas e expostas</option>
-                    <option data-category="apoios" value="4.13">4.13 - Descolamento da fretagem</option>
-                    <option data-category="apoios" value="4.14">4.14 - Assentamento irregular com concentração de esforços</option>
-                    <option data-category="apoios" value="4.15">4.15 - Deterioração do berço de assentamento e de nivelamento superior</option>
-                  </optgroup>
-                </select>
+  <option value="">Selecione...</option>
+  <optgroup label="1. CONCRETO">
+    <option data-category="concreto" value="1.1">1.1 - Manchas de umidade</option>
+    <option data-category="concreto" value="1.3">1.3 - Eflorescência</option>
+    <option data-category="concreto" value="1.4">1.4 - Estalactites</option>
+    <option data-category="concreto" value="1.5">1.5 - Concreto disgregado</option>
+    <option data-category="concreto" value="1.5-1.17">1.5-1.17 - Concreto disgregado com Armadura Exposta</option>
+    <option data-category="concreto" value="1.6">1.6 - Concreto segregado</option>
+    <option data-category="concreto" value="1.6-1.17">1.6-1.17 - Concreto segregado com Armadura Exposta</option>
+    <option data-category="concreto" value="1.7">1.7 - Concreto desagregado</option>
+    <option data-category="concreto" value="1.7-1.17">1.7-1.17 - Concreto desagregado com Armadura Exposta</option>
+    <option data-category="concreto" value="1.8">1.8 - Reduçao de cobrimento</option>
+    <option data-category="concreto" value="1.9a">1.9a - Fissuras horizontais (a &lt; 0,3mm)</option>
+    <option data-category="concreto" value="1.9b">1.9b - Fissuras horizontais em elementos complementares</option>
+    <option data-category="concreto" value="1.9c">1.9c - Fissuras horizontais (a &gt; 0,3mm)</option>
+    <option data-category="concreto" value="1.10a">1.10a - Fissuras verticais (a &lt; 0,3mm)</option>
+    <option data-category="concreto" value="1.10b">1.10b - Fissuras verticais em elementos complementares</option>
+    <option data-category="concreto" value="1.10c">1.10c - Fissuras verticais (a &gt; 0,3mm)</option>
+    <option data-category="concreto" value="1.11a">1.11a - Fissuras diagonais (a &lt; 0,3mm)</option>
+    <option data-category="concreto" value="1.11b">1.11b - Fissuras diagonais em elementos complementares</option>
+    <option data-category="concreto" value="1.11c">1.11c - Fissuras diagonais (a &gt; 0,3mm)</option>
+    <option data-category="concreto" value="1.12">1.12 - Fissuras mapeadas</option>
+    <option data-category="concreto" value="1.13a">1.13a - Trincas ( &gt; 0,5 mm)</option>
+    <option data-category="concreto" value="1.13b">1.13b - Trincas ( &gt; 0,5 mm) em elementos complementares</option>
+    <option data-category="concreto" value="1.14">1.14 - Reparos locais inadequados</option>
+    <option data-category="concreto" value="1.15">1.15 - Fora de prumo</option>
+    <option data-category="concreto" value="1.16">1.16 - Desplacamento</option>
+    <option data-category="concreto" value="1.16-1.17">1.16-1.17 - Desplacamento com Armadura Exposta</option>
+    <option data-category="concreto" value="1.18">1.18 - Manchas enegrecidas</option>
+    <option data-category="concreto" value="1.19">1.19 - Incidência de vegetação</option>
+    <option data-category="concreto" value="1.21">1.21 - Resto de forma</option>
+  </optgroup>
+  <optgroup label="2. ESTRUTURAS METÁLICAS">
+    <option data-category="metalica" value="2.1">2.1 - Falha de acabamento na soldagem</option>
+    <option data-category="metalica" value="2.2">2.2 - Corrosão</option>
+    <option data-category="metalica" value="2.3">2.3 - Empeno/Deformação</option>
+    <option data-category="metalica" value="2.4">2.4 - Falta de parafusos, porcas e arruelas</option>
+    <option data-category="metalica" value="2.5">2.5 - Falha de pintura</option>
+    <option data-category="metalica" value="2.6">2.6 - Trinca transpassante</option>
+    <option data-category="metalica" value="2.7">2.7 - Infiltração no parafuso</option>
+    <option data-category="metalica" value="2.8">2.8 - Oxidação</option>
+    <option data-category="metalica" value="2.9">2.9 - Buzinotes curtos, danificados ou ausentes</option>
+    <option data-category="metalica" value="2.10">2.10 - Calcinação</option>
+  </optgroup>
+  <optgroup label="3. PAVIMENTAÇÃO E SISTEMA VIÁRIO">
+    <option data-category="pavimentacao" value="3.1a">3.1a - Fuga de material, existência de erosão e indícios de instabilidade do talude (concreto projetado)</option>
+    <option data-category="pavimentacao" value="3.1b">3.1b - Fuga de material, existência de erosão e indícios de instabilidade do talude (revestimento vegetal)</option>
+    <option data-category="pavimentacao" value="3.1c">3.1c - Fuga de material, existência de erosão e indícios de instabilidade do talude (saco de areia ou solo cimento)</option>
+    <option data-category="pavimentacao" value="3.2">3.2 - Desgaste superficial, espessura excessiva, ondulações e cavidades no pavimento</option>
+    <option data-category="pavimentacao" value="3.3">3.3 - Deficiência e/ou ausência de sinalização horizontal, vertical e aérea</option>
+    <option data-category="pavimentacao" value="3.4">3.4 - Descontinuidade do greide</option>
+    <option data-category="pavimentacao" value="3.5a">3.5a - Deficiência no sistema de drenagem (pingadeira)</option>
+    <option data-category="pavimentacao" value="3.5b">3.5b - Deficiência no sistema de drenagem (buzinote)</option>
+    <option data-category="pavimentacao" value="3.6">3.6 - Ausência de perfil de vedação na junta de dilatação</option>
+    <option data-category="pavimentacao" value="3.7">3.7 - Falta de estanqueidade na junta de dilatação</option>
+    <option data-category="pavimentacao" value="3.8">3.8 - Saliência ou depressão causando desconforto ao usuário ou impacto na obra</option>
+    <option data-category="pavimentacao" value="3.9">3.9 - Deterioração dos lábios poliméricos</option>
+    <option data-category="pavimentacao" value="3.10">3.10 - Deterioração dos berços na junta de dilatação</option>
+    <option data-category="pavimentacao" value="3.11">3.11 - Acúmulo de detritos no junta de dilatação</option>
+    <option data-category="pavimentacao" value="3.12">3.12 - Perfil elastomérico com descolamento, rasgos ressecamento ou deslocamento</option>
+    <option data-category="pavimentacao" value="3.13">3.13 - Abertura excessiva da junta de dilatação</option>
+    <option data-category="pavimentacao" value="3.14">3.14 - Trincas no pavimento</option>
+    <option data-category="pavimentacao" value="3.16">3.16 - Panela</option>
+    <option data-category="pavimentacao" value="3.17">3.17 - Exsudação</option>
+    <option data-category="pavimentacao" value="3.18">3.18 - Defeitos nos trilhos (ondulações e desgastes)</option>
+    <option data-category="pavimentacao" value="3.19">3.19 - Falha de adensamento do lastro</option>
+    <option data-category="pavimentacao" value="3.20">3.20 - Dormentes soltos, ausêntes ou danificados</option>
+    <option data-category="pavimentacao" value="3.21">3.21 - Fixações danificadas</option>
+    <option data-category="pavimentacao" value="3.22">3.22 - Trilhos desalinhados em região de junta</option>
+    <option data-category="pavimentacao" value="3.23">3.23 - Espessura excessiva do lastro</option>
+    <option data-category="pavimentacao" value="3.24">3.24 - Trincas tipo "couro de jacaré"</option>
+    <option data-category="pavimentacao" value="3.25">3.25 - Dano em pavimento rígido</option>
+  </optgroup>
+  <optgroup label="4. APARELHOS DE APOIO">
+    <option data-category="apoios" value="4.1">4.1 - Ausência de aparelho de apoio</option>
+    <option data-category="apoios" value="4.2">4.2 - Bloqueio</option>
+    <option data-category="apoios" value="4.3">4.3 - Posicionamento inadequado</option>
+    <option data-category="apoios" value="4.4">4.4 - Acúmulo de detritos, ocorrência de agentes agressivos</option>
+    <option data-category="apoios" value="4.5">4.5 - Ruptura</option>
+    <option data-category="apoios" value="4.6">4.6 - Fissuras</option>
+    <option data-category="apoios" value="4.7">4.7 - Trincas</option>
+    <option data-category="apoios" value="4.8">4.8 - Esmagamento</option>
+    <option data-category="apoios" value="4.9">4.9 - Deformações laterais excessivas</option>
+    <option data-category="apoios" value="4.10">4.10 - Deslocamentos</option>
+    <option data-category="apoios" value="4.11">4.11 - Distorção excessiva</option>
+    <option data-category="apoios" value="4.12">4.12 - Peças de aço oxidadas e expostas</option>
+    <option data-category="apoios" value="4.13">4.13 - Descolamento da fretagem</option>
+    <option data-category="apoios" value="4.14">4.14 - Assentamento irregular com concentração de esforços</option>
+    <option data-category="apoios" value="4.15">4.15 - Deterioração do berço de assentamento e de nivelamento superior</option>
+  </optgroup>
+  <optgroup label="OUTROS">
+    <option value="* Substituição de placas de fechamento">* Substituição de placas de fechamento</option>
+    <option value="* Ausência de sinalização vertical no encontro">* Ausência de sinalização vertical no encontro</option>
+    <option value="* Substituição de guarda-corpo de concreto">* Substituição de guarda-corpo de concreto</option>
+    <option value="* Ausência de defensa metálica">* Ausência de defensa metálica</option>
+    <option value="* Ausência de sinalização de gabarito vertical">* Ausência de sinalização de gabarito vertical</option>
+    <option value="* Preenchimento de vazios sob a laje de transição">* Preenchimento de vazios sob a laje de transição</option>
+    <option value="* Ausência de fixação em defensas metálicas">* Ausência de fixação em defensas metálicas</option>
+    <option value="* Ausência de dispositivo de proteção aos pilares">* Ausência de dispositivo de proteção aos pilares</option>
+    <option value="* Sinalização horizontal com desgaste">* Sinalização horizontal com desgaste</option>
+    <option value="* Danos superficiais em passeio de concreto">* Danos superficiais em passeio de concreto</option>
+    <option value="* Danos em passeio de concreto">* Danos em passeio de concreto</option>
+    <option value="* Ruptura de fixação em elementos metálicos">* Ruptura de fixação em elementos metálicos</option>
+  </optgroup>
+</select>
                 <p id="aberturaHint" class="hint hidden">ℹ️ Para fissuras/trincas informe a <strong>abertura</strong> (W).</p>
               </div>
 
